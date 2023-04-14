@@ -74,10 +74,13 @@ class LinkedBinaryTreeTest {
     void testCreateLevelOrder() {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
-        Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        Integer[] arr = new Integer[]{1,
+                                       2, 3, 
+                                       4, 5, 6, 7, 
+                                       8, 9, 10, 11, 12, 13, 14, 15};
         bt.createLevelOrder(arr);
-        //System.out.println(bt.toString());
-        assertEquals("[8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 3, 7]", bt.toString());
+        System.out.println(bt.toString());
+        assertEquals("[8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 13, 3, 14, 7, 15]", bt.toString());
     }
 
     @Test
@@ -86,8 +89,18 @@ class LinkedBinaryTreeTest {
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
         bt.createLevelOrder(arr);
-        //System.out.println(bt.toString());
+        System.out.println(bt.toString());
         assertEquals("[8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 3, 7]", bt.inorder().toString());
+    }
+
+    @Test
+    void testBreadthfirst() {
+        LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
+
+        Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        bt.createLevelOrder(arr);
+        System.out.println(bt.toString());
+        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", bt.breadthfirst().toString());
     }
 
     @Test
@@ -98,6 +111,9 @@ class LinkedBinaryTreeTest {
         bt.createLevelOrder(arr);
 
         assertEquals(0, bt.depth(bt.root()));
+
+        //assertEquals(1, bt.depth((Position<Integer>) (bt.left(bt.root()))));
+
     }
 
     @Test
