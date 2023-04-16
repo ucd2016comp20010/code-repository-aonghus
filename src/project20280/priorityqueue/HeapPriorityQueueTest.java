@@ -46,6 +46,7 @@ class HeapPriorityQueueTest {
 
         for (Integer i : arr) pq.insert(i, Integer.toString(i));
 
+        assertEquals(12, pq.size());
         assertEquals(1, pq.removeMin().getKey());
         assertEquals(11, pq.size());
         assertEquals(2, pq.min().getKey());
@@ -61,4 +62,19 @@ class HeapPriorityQueueTest {
         assertEquals("[1, 2, 5, 23, 4, 12, 15, 35, 24, 33, 21, 26]", pq.toString());
     }
 
+    @Test
+    void testHeapify() {
+        Integer[] rands = new Integer[]{16,15,4,12,6,7,23,20,25,9,11,17,5,8,14};
+        HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>(rands, rands);
+
+        System.out.println(pq.toBinaryTreeString());
+        
+        System.out.println("elements: " + rands);
+        System.out.println("after adding elements: " + pq);
+
+        System.out.println("min element: " + pq.min());
+
+        pq.removeMin();
+        System.out.println("after removeMin: " + pq);
+    }
 }
