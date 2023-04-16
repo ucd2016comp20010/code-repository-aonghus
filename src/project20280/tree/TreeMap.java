@@ -131,11 +131,12 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
             var y = parent(x);
             var z = parent(y);
-            if( (x == right(y)) && (y == right(z))) {
+            if( (x == right(y)) == (y == right(z))) {
                 rotate(y);
                 return y;
             } else {
-                rotate(x); rotate(x);
+                rotate(x);
+                rotate(x);
                 return x;
             }
         }
@@ -374,16 +375,18 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
             if( isInternal(left(p)) && isInternal(right(p)) ) {
                 // BST Delete 2 internal
-                Position<Entry<K, V>> predecessor = treeMax(left(p));
+                var predecessor = treeMax(left(p));
+                //var predecessor = treeMin(right(p));
                 set(p, predecessor.getElement());
                 p = predecessor;
             }
 
             // 1 internal
-            Position<Entry<K,V>> leaf = isExternal(left(p)) ? left(p) : right(p);
-            Position<Entry<K,V>> sib = sibling(leaf);
+            var leaf = isExternal(left(p)) ? left(p) : right(p);
+            var sib = sibling(leaf);
             remove(leaf);
             remove(p);
+            System.out.println("TreeMap::remove(" + p + ", " + sib +")"); //\n" + this.toBinaryTreeString());
             rebalanceDelete(sib);
             return old;
         }

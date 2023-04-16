@@ -55,7 +55,7 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 
         if(height(left(p)) > height(right(p))) return left(p);
         if(height(left(p)) < height(right(p))) return right(p);
-        if(isRoot(p)) left(p);
+        if(isRoot(p)) return left(p);
         if(p == left(parent(p))) {
             return left(p);
         } else {
@@ -69,6 +69,8 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
      * imbalance is found, continuing until balance is restored.
      */
     protected void rebalance(Position<Entry<K, V>> p) {
+        //System.out.println("AVLTreeMap::rebalance before: " + p + "\n" + this.toBinaryTreeString());
+
         int oldHeight, newHeight;
 
         do {

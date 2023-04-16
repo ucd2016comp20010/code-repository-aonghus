@@ -41,7 +41,6 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public boolean isExternal(Position<E> p) {
-        // TODO
         return numChildren(p) == 0;
     }
 
@@ -66,9 +65,10 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public int numChildren(Position<E> p) {
-        // TODO
         int count = 0;
-        for(Position c : children(p)) ++count;
+        for(Position c : children(p)) {
+            ++count;
+        }
         return count;
     }
 

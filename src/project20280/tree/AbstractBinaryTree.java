@@ -24,15 +24,28 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      */
     @Override
     public Position<E> sibling(Position<E> p) {
-        if(parent(p) == null) return null;
+        var parent = parent(p);
+        if(parent == null) {
+            return null;
+        }
 
-        if(parent(p) == left(parent(p))) {
-            return right(parent(p));
+        if(p == left(parent)) {
+            return right(parent);
         } else {
-            return left(parent(p));
+            return left(parent);
        }
     }
 
+    @Override
+    public int numChildren(Position<E> p) {
+        int count=0;
+        if (left(p) != null)
+            count++;
+        if (right(p) != null)
+            count++;
+        return count;
+    }
+    
     /**
      * Returns the number of children of Position p.
      *
@@ -40,13 +53,6 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @return number of children of Position p
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
-    @Override
-    public int numChildren(Position<E> p) {
-        int count = 0;
-        if(left(p) != null) count++;
-        if(right(p) != null) count++;
-        return count;
-    }
 
     /**
      * Returns an iterable collection of the Positions representing p's children.
@@ -58,8 +64,12 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
     @Override
     public Iterable<Position<E>> children(Position<E> p) {
         List<Position<E>> l = new ArrayList<>();
-        if(left(p) != null) l.add(left(p));
-        if(right(p) != null) l.add(right(p));
+        if(left(p) != null) {
+            l.add(left(p));
+        }
+        if(right(p) != null) {
+            l.add(right(p));
+        }
         return l;
     }
 
