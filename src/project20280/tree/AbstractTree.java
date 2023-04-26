@@ -2,10 +2,12 @@ package project20280.tree;
 
 import project20280.interfaces.Position;
 import project20280.interfaces.Tree;
+import project20280.stacksqueues.LinkedQueue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 
 
 /**
@@ -27,7 +29,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public boolean isInternal(Position<E> p) {
-        // TODO
+        return numChildren(p) > 0;
     }
 
     /**
@@ -39,7 +41,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public boolean isExternal(Position<E> p) {
-        // TODO
+        return numChildren(p) == 0;
     }
 
     /**
@@ -51,6 +53,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
     @Override
     public boolean isRoot(Position<E> p) {
         // TODO
+        return p == root();
     }
 
     /**
@@ -62,7 +65,11 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public int numChildren(Position<E> p) {
-        // TODO
+        int count = 0;
+        for(Position c : children(p)) {
+            ++count;
+        }
+        return count;
     }
 
     /**
@@ -97,6 +104,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     public int depth(Position<E> p) throws IllegalArgumentException {
         // TODO
+        if(isRoot(p)) return 0;
+        return 1 + depth(parent(p));
     }
 
     /**
@@ -119,7 +128,11 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     public int height(Position<E> p) throws IllegalArgumentException {
-        // TODO
+        int h = 0;
+        for(Position<E> c : children(p)) {
+            h = Math.max(h, 1 + height(c));
+        }
+        return h;
     }
 
     //---------- support for various iterations of a tree ----------
@@ -170,7 +183,9 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param snapshot a list to which results are appended
      */
     private void preorderSubtree(Position<E> p, List<Position<E>> snapshot) {
-        // TODO
+        snapshot.add(p);                       // for preorder, we add position p before exploring subtrees
+        for (Position<E> c : children(p))
+            preorderSubtree(c, snapshot);
     }
 
     /**
@@ -179,7 +194,10 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return iterable collection of the tree's positions in preorder
      */
     public Iterable<Position<E>> preorder() {
-        // TODO
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (!isEmpty())
+            preorderSubtree(root(), snapshot);   // fill the snapshot recursively
+        return snapshot;
     }
 
     /**
@@ -190,7 +208,9 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param snapshot a list to which results are appended
      */
     private void postorderSubtree(Position<E> p, List<Position<E>> snapshot) {
-        // TODO
+        for (Position<E> c : children(p))
+            postorderSubtree(c, snapshot);
+        snapshot.add(p);
     }
 
     /**
@@ -205,12 +225,32 @@ public abstract class AbstractTree<E> implements Tree<E> {
         return snapshot;
     }
 
+    public Iterable<Position<E>> inorder() {
+        //
+        return null;
+    }
+
+    private void inorderSubtree(Position<E> p, List<Position<E>> snapshot) {
+
+    }
+    
     /**
      * Returns an iterable collection of positions of the tree in breadth-first order.
      *
      * @return iterable collection of the tree's positions in breadth-first order
      */
     public Iterable<Position<E>> breadthfirst() {
-        // TODO
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (!isEmpty()) {
+            //Queue<Position<E>> q = new LinkedQueue<>();
+            java.util.Queue<Position<E>> q = new java.util.LinkedList<>();
+            q.add(root());                 // start with the root
+            while (!q.isEmpty()) {
+                Position<E> p = q.remove();     // remove from front of the queue
+                snapshot.add(p);                      // report this position
+                children(p).forEach(c -> q.add(c));           // add children to back of queue
+            }
+        }
+        return snapshot;
     }
 }

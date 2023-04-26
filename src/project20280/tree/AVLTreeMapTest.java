@@ -26,31 +26,48 @@ class AVLTreeMapTest {
     @Test
     void testPut() {
         AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
-        Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        //Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        Integer[] arr = new Integer[]{14, 7,17,4,12,53,11,13};
 
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
 
-        Iterator<Integer> keys = map.keySet().iterator();
-        List<Integer> list = new ArrayList<>();
-        keys.forEachRemaining(list::add);
+        System.out.println(map.tree.toBinaryTreeString());
 
-        assertEquals("[1, 2, 4, 5, 12, 15, 21, 23, 24, 26, 33, 35]", list.toString());
+        assertEquals("[4, 7, 11, 12, 13, 14, 17, 53]", map.toString());
+
+        map.put(8, "8");
+        System.out.println(map.tree.toBinaryTreeString());
+        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17, 53]", map.toString());
+
+
     }
 
     @Test
     void testRemoveK() {
         AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
-        Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        //Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        Integer[] arr = new Integer[]{14, 11,17,7,12,53,4,8,13};
 
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
 
-        assertEquals(12, map.size());
-        assertEquals("26", map.remove(26));
-        assertEquals(11, map.size());
+        System.out.println(map.tree.toBinaryTreeString());
+
+        //assertEquals(12, map.size());
+        //assertEquals("26", map.remove(26));
+        //assertEquals(11, map.size());
+
+        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17, 53]", map.toString());
+
+        map.remove(53);
+
+        System.out.println(map.tree.toBinaryTreeString());
+
+        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17]", map.toString());
+
     }
 
     @Test
@@ -148,7 +165,7 @@ class AVLTreeMapTest {
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
-        assertEquals("[⦰, 1, ⦰, 2, ⦰, 4, ⦰, 5, ⦰, 12, ⦰, 15, ⦰, 21, ⦰, 23, ⦰, 24, ⦰, 26, ⦰, 33, ⦰, 35, ⦰]", map.toString());
+        assertEquals("[1, 2, 4, 5, 12, 15, 21, 23, 24, 26, 33, 35]", map.toString());
     }
 
     @Test

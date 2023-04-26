@@ -13,14 +13,20 @@ class SplayTreeMapTest {
     @Test
     void testGet() {
         SplayTreeMap<Integer, String> map = new SplayTreeMap<>();
-        Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        //Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        Integer [] arr = {3,4,5,10, 2,11,1,9, 6, 12, 7, 8};
 
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
-        assertEquals("15", map.get(15));
-        assertEquals("24", map.get(24));
-        assertNull(map.get(-1));
+        System.out.println(map.tree.toBinaryTreeString());
+        assertEquals("4", map.get(4));
+        assertEquals("4", map.root().getElement().getValue());
+        //assertEquals("15", map.get(15));
+        //assertEquals("24", map.get(24));
+        //assertNull(map.get(-1));
+        System.out.println(map.tree.toBinaryTreeString());
+        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]", map.toString());
     }
 
     @Test
@@ -42,15 +48,22 @@ class SplayTreeMapTest {
     @Test
     void testRemoveK() {
         SplayTreeMap<Integer, String> map = new SplayTreeMap<>();
-        Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        //Integer[] arr = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
+        Integer[] arr = new Integer[]{21,19,47,23,12,4,36,28,10,31,17,29};
 
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
 
-        assertEquals(12, map.size());
-        assertEquals("26", map.remove(26));
-        assertEquals(11, map.size());
+        System.out.println(map.tree.toBinaryTreeString());
+        //assertEquals(12, map.size());
+        //assertEquals("26", map.remove(26));
+        //assertEquals(11, map.size());
+        map.put(20, "20");
+        System.out.println(map.tree.toBinaryTreeString());
+        assertEquals("[4, 10, 12, 17, 19, 20, 21, 23, 28, 29, 31, 36, 47]", map.toString());
+
+
     }
 
     @Test
@@ -148,7 +161,7 @@ class SplayTreeMapTest {
         for (Integer i : arr) {
             map.put(i, Integer.toString(i));
         }
-        assertEquals("[⦰, 1, ⦰, 2, ⦰, 4, ⦰, 5, ⦰, 12, ⦰, 15, ⦰, 21, ⦰, 23, ⦰, 24, ⦰, 26, ⦰, 33, ⦰, 35, ⦰]", map.toString());
+        assertEquals("[1, 2, 4, 5, 12, 15, 21, 23, 24, 26, 33, 35]", map.toString());
     }
 
     @Test

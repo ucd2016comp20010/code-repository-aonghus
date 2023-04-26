@@ -4,8 +4,10 @@ package project20280.priorityqueue;
  */
 
 import project20280.interfaces.Entry;
+import project20280.tree.LinkedBinaryTree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 
@@ -43,36 +45,41 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      * @param values an array of the initial values for the priority queue
      */
     public HeapPriorityQueue(K[] keys, V[] values) {
-        // TODO
+         super();
+         for(int i = 0; i < keys.length; ++i) {
+             heap.add(new PQEntry<>(keys[i], values[i]));
+         }
+         heapify();
     }
 
     // protected utilities
     protected int parent(int j) {
-        // TODO
+        return (j - 1)/2;
     }
 
     protected int left(int j) {
-        // TODO
+        return 2*j + 1;
     }
 
     protected int right(int j) {
-        // TODO
+        return 2*j + 2;
     }
 
     protected boolean hasLeft(int j) {
-        // TODO
+        return left(j) < heap.size();
     }
 
     protected boolean hasRight(int j) {
-        // TODO
-
+        return right(j) < heap.size();
     }
 
     /**
      * Exchanges the entries at indices i and j of the array list.
      */
     protected void swap(int i, int j) {
-        // TODO
+        var tmp = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, tmp);
     }
 
     /**
@@ -80,21 +87,46 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      * property.
      */
     protected void upheap(int j) {
-        // TODO
+        while(j > 0) {
+            int p = parent(j);
+            if(compare(heap.get(j), heap.get(p)) >= 0) {
+                break;
+            } else {
+                swap(j, p);
+                j = p;
+            }
+        }
     }
 
     /**
      * Moves the entry at index j lower, if necessary, to restore the heap property.
      */
     protected void downheap(int j) {
-        // TODO
+        while(hasLeft(j))  {
+            int left = left(j);
+            int child = left;
+            if(hasRight(j)) {
+                int right = right(j);
+               if(compare(heap.get(left), heap.get(right)) > 0) {
+                   child = right;
+               }
+            }
+
+            if(compare(heap.get(child), heap.get(j)) >= 0) {
+                break;
+            }
+            swap(j, child);
+            j = child;
+        }
     }
 
     /**
      * Performs a bottom-up construction of the heap in linear time.
      */
     protected void heapify() {
-        // TODO
+        for(int i = parent(size() - 1); i >= 0; --i) {
+            downheap(i);
+        }
     }
 
     // public methods
@@ -129,7 +161,10 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      */
     @Override
     public Entry<K, V> insert(K key, V value) throws IllegalArgumentException {
-        // TODO
+        var n = new PQEntry<K, V>(key, value);
+        heap.add(n);
+        upheap(heap.size() - 1);
+        return n;
     }
 
     /**
@@ -139,7 +174,12 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      */
     @Override
     public Entry<K, V> removeMin() {
-        // TODO
+        var root = heap.get(0);
+        swap(0, heap.size() - 1);
+        heap.remove(heap.size() - 1);
+        downheap(0);
+        return root;
+
     }
 
     public String toString() {
@@ -168,6 +208,13 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         }
     }
 
+    public String toBinaryTreeString() {
+        LinkedBinaryTree<K> tree = new LinkedBinaryTree<>();
+        K[] arr = ((K[]) heap.toArray());
+
+        tree.createLevelOrder(arr);
+        return tree.toBinaryTreeString();
+    }
     public static void main(String[] args) {
         Integer[] rands = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
         HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>(rands, rands);
